@@ -29,7 +29,11 @@ public class BinaryConversion {
     public long toDecimal() {
         if (!isSigned) {
             // unsigned
-            return Long.parseLong(binary, 2);
+            long value = Long.parseLong(binary, 2);
+            if (binary.length() == 32 && binary.charAt(0) == '1') {
+                return value + (1L << 32);
+            }
+        return value;
         } else {
             // twos comp
             if (binary.charAt(0) == '0') {
@@ -75,7 +79,7 @@ public class BinaryConversion {
         return true;
     }
 
-   @Override
+    @Override
     public String toString() { 
         String extended32 = this.binary;
         
@@ -93,7 +97,6 @@ public class BinaryConversion {
             }
             res += extended32.charAt(i);
         }
-        
         return res;
     }
 
