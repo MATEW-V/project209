@@ -1,7 +1,7 @@
 public class BinaryConversion {
     private String binary;
-    private boolean isSigned; 
-    
+    private boolean isSigned;
+
     // default constructor: unsigned
     public BinaryConversion(String binary) {
         if (!isBinary(binary)) {
@@ -13,6 +13,7 @@ public class BinaryConversion {
         this.binary = binary;
         this.isSigned = false;
     }
+
     // overloaded constructor but signed
     public BinaryConversion(String binary, boolean signed) {
         if (!isBinary(binary)) {
@@ -24,7 +25,7 @@ public class BinaryConversion {
         this.binary = binary;
         this.isSigned = signed;
     }
-    
+
     // signed decimal conv
     public long toDecimal() {
         if (!isSigned) {
@@ -33,18 +34,18 @@ public class BinaryConversion {
             if (binary.length() == 32 && binary.charAt(0) == '1') {
                 return value + (1L << 32);
             }
-        return value;
+            return value;
         } else {
             // twos comp
             if (binary.charAt(0) == '0') {
-                return Long.parseLong(binary, 2); 
+                return Long.parseLong(binary, 2);
             } else {
                 long value = Long.parseLong(binary, 2);
-                return value - (1L << binary.length()); 
+                return value - (1L << binary.length());
             }
         }
     }
-    
+
     // get signed decimal value
     public long toSignedDecimal() {
         if (binary.charAt(0) == '0') {
@@ -54,12 +55,22 @@ public class BinaryConversion {
             return value - (1L << binary.length());
         }
     }
-    
-    public String toHex() { return Long.toHexString(toDecimal()).toUpperCase(); }   //hex conversion
-    public String getBinary() { return this.binary;}                                //basic get binary no formatting
-    public int getDegree() { return binary.length(); }                              //for floating points
-    public void setSigned(boolean signed) { this.isSigned = signed; }               // sign bool setter
-    public boolean isSigned() { return isSigned; }                                  // sign checker
+
+    public String getBinary() {
+        return this.binary;
+    } // basic get binary no formatting
+
+    public int getDegree() {
+        return binary.length() - 1;
+    } // gets degree idkw aht to say, also works for flaoting
+
+    public void setSigned(boolean signed) {
+        this.isSigned = signed;
+    } // sign bool setter
+
+    public boolean isSigned() {
+        return isSigned;
+    } // sign checker
 
     // set binary (preserves current sign setting)
     public void setBinary(String binary) {
@@ -68,21 +79,23 @@ public class BinaryConversion {
         }
         this.binary = binary;
     }
-    
+
     public static boolean isBinary(String input) {
-        if (input == null || input.isEmpty()) return false;
+        if (input == null || input.isEmpty())
+            return false;
 
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            if (c != '0' && c != '1') return false;
+            if (c != '0' && c != '1')
+                return false;
         }
         return true;
     }
 
     @Override
-    public String toString() { 
+    public String toString() {
         String extended32 = this.binary;
-        
+
         if (extended32.length() < 32) {
             char padChar = isSigned ? extended32.charAt(0) : '0';
             while (extended32.length() < 32) {
