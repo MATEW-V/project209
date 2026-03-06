@@ -25,14 +25,12 @@ public class ProjectOneTester {
             System.out.println("1. Random Question");
             System.out.println("2. Exit");
             System.out.print("Choose: ");
-
             int choice = getIntInput();
             if (choice == 2) return;
-            
             randomQuestion();
         }
     }
-
+    //input for user checks
     private static int getIntInput() {
         while (true) {
             try {
@@ -45,7 +43,6 @@ public class ProjectOneTester {
             }
         }
     }
-    
     private static int getIntInput(int max) {
         while (true) {
             int input = getIntInput();
@@ -55,18 +52,19 @@ public class ProjectOneTester {
             System.out.print("Enter 1-" + max + ": ");
         }
     }
-
+    //random binary method
     private static String randBin(int len) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) sb.append(rand.nextInt(2));
         return sb.toString();
     }
-
+    //padder for the random when ieee
     private static String pad32(String b) {
         while (b.length() < 32) b = "0" + b;
         return b;
     }
 
+    //quiz interface w/ arraylists
     private static void quiz(String q, ArrayList<?> opts, Object correct, String msg) {
         Collections.shuffle(opts);
         System.out.println("\n" + q);
@@ -82,6 +80,7 @@ public class ProjectOneTester {
             System.out.println("✗ Wrong. " + msg);
     }
 
+    //question bank
     public static void randomQuestion() {
         String bin = randBin(8 + rand.nextInt(25));
         String padded = pad32(bin);
@@ -89,7 +88,7 @@ public class ProjectOneTester {
         boolean signed = rand.nextBoolean();
         
         switch(rand.nextInt(6)) {
-            case 0: // Binary to Decimal
+            case 0: // binary to decimal
                 long dec = new BinaryConversion(bin, signed).toDecimal();
                 ArrayList<Long> opts1 = new ArrayList<>();
                 opts1.add(dec);
@@ -99,7 +98,7 @@ public class ProjectOneTester {
                 quiz("Binary (" + (signed?"signed":"unsigned") + "): " + bin + "\nDecimal?", opts1, dec, "Answer: " + dec);
                 break;
                 
-            case 1: // Decimal to Binary
+            case 1: // decimal to Binary
                 int d = signed ? rand.nextInt(201)-100 : rand.nextInt(256);
                 String correctBin = Integer.toBinaryString(Math.abs(d));
                 if (signed && d < 0) correctBin = Integer.toBinaryString(~Math.abs(d) + 1).substring(24);
@@ -111,7 +110,7 @@ public class ProjectOneTester {
                 quiz("Decimal (" + (signed?"signed":"unsigned") + "): " + d + "\nBinary?", opts2, correctBin, "Answer: " + correctBin);
                 break;
                 
-            case 2: // IEEE754 Sign bit
+            case 2: // IEEE754 sign bit
                 String sign = ieee.getSignBit().equals("0") ? "Positive" : "Negative";
                 ArrayList<String> opts3 = new ArrayList<>();
                 opts3.add(sign);
@@ -119,7 +118,7 @@ public class ProjectOneTester {
                 quiz("IEEE754: " + ieee.getIEEE754Format() + "\nSign?", opts3, sign, "It's " + sign);
                 break;
                 
-            case 3: // IEEE754 Exponent
+            case 3: // IEEE754 exponent
                 int exp = Integer.parseInt(ieee.getExponent(), 2) - 127;
                 ArrayList<Integer> opts4 = new ArrayList<>();
                 opts4.add(exp);
@@ -129,7 +128,7 @@ public class ProjectOneTester {
                 quiz("Exponent bits: " + ieee.getExponent() + "\nActual exponent?", opts4, exp, "Answer: " + exp);
                 break;
                 
-            case 4: // Binary to Scientific
+            case 4: // binary to Scientific
                 String sci = ieee.toString();
                 ArrayList<String> opts5 = new ArrayList<>();
                 opts5.add(sci);
@@ -146,7 +145,7 @@ public class ProjectOneTester {
                 quiz("Binary: " + bin + "\nScientific?", opts5, sci, "Correct: " + sci);
                 break;
                 
-            case 5: // Degree
+            case 5: // degree
                 int deg = new BinaryConversion(bin, false).getDegree();
                 ArrayList<Integer> opts7 = new ArrayList<>();
                 opts7.add(deg);
