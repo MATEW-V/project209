@@ -6,7 +6,7 @@ import java.util.InputMismatchException;
 
 // I want to create a simple binary conversion quiz.
 // It should also test on floating points and its conversions.
-// It can be expanded upon in the future but for now its multiple choice.
+// It can be expanded upon in the future but for now its multiple choice. (made the 2 classes future proof with extra setters / getters)
 
 // There will be a parent class for binary numbers, including signed and unsigned for 32 bit representation.
 // Basic getter methods like getDegree, toDecimal or check if signed. toString should format the binary in groups of 4 bits.
